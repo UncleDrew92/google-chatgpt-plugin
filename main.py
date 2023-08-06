@@ -10,11 +10,14 @@ from utils import process_results
 app = Flask(__name__)
 CORS(app)
 
+
 def load_environment_variables():
     load_dotenv()
     return os.environ.get("GOOGLE_API_KEY"), os.environ.get("CUSTOM_SEARCH_ENGINE_ID")
 
+
 API_KEY, CX = load_environment_variables()
+
 
 @app.route('/.well-known/ai-plugin.json', methods=['GET'])
 def get_plugin_info():
@@ -25,6 +28,7 @@ def get_plugin_info():
 
         return jsonify(data)
 
+
 @app.route('/.well-known/openapi.yaml', methods=['GET'])
 def get_openai_info():
     with open('.well-known/openapi.yaml') as f:
@@ -33,6 +37,7 @@ def get_openai_info():
         yaml_data = yaml.dump(data)
 
         return Response(yaml_data, content_type='application/x-yaml')
+
 
 @app.route('/search', methods=['GET'])
 def search():
@@ -51,9 +56,11 @@ def search():
     else:
         return jsonify({"error": "Error fetching search results"}), response.status_code
 
+
 @app.route('/.well-known/<path:filename>')
 def serve_well_known_files(filename):
     return send_from_directory(os.path.join(os.getcwd(), ".well-known"), filename)
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)

@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 
+
 class SearchResult:
     def __init__(self, title, link):
         self.title = title
@@ -15,6 +16,7 @@ class SearchResult:
             'summary': self.summary,
             'full_content': self.full_content
         }
+
 
 def fetch_content(url, summary=False):
     """
@@ -32,6 +34,7 @@ def fetch_content(url, summary=False):
     except Exception as e:
         print(f"Error fetching content: {e}")
         return None
+
 
 def process_results(results):
     formatted_results = [SearchResult(res['title'], res['link']) for res in results]
